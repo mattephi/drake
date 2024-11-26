@@ -22,6 +22,7 @@ drake_cc_package_library(
         ":bogacki_shampine3_integrator",
         ":dense_output",
         ":explicit_euler_integrator",
+        ":delm_integrator",
         ":hermitian_dense_output",
         ":implicit_euler_integrator",
         ":implicit_integrator",
@@ -85,6 +86,7 @@ drake_cc_library(
     deps = [
         ":bogacki_shampine3_integrator",
         ":explicit_euler_integrator",
+        ":delm_integrator",
         ":implicit_euler_integrator",
         ":radau_integrator",
         ":runge_kutta2_integrator",
@@ -186,6 +188,15 @@ drake_cc_library(
     name = "explicit_euler_integrator",
     srcs = ["explicit_euler_integrator.cc"],
     hdrs = ["explicit_euler_integrator.h"],
+    deps = [
+        ":integrator_base",
+    ],
+)
+
+drake_cc_library(
+    name = "delm_integrator",
+    srcs = ["delm_integrator.cc"],
+    hdrs = ["delm_integrator.h"],
     deps = [
         ":integrator_base",
     ],
@@ -488,6 +499,7 @@ drake_cc_googletest(
     name = "simulator_test",
     deps = [
         ":explicit_euler_integrator",
+        ":delm_integrator",
         ":implicit_euler_integrator",
         ":runge_kutta3_integrator",
         ":simulator",
@@ -594,6 +606,16 @@ drake_cc_googletest(
     timeout = "moderate",
     deps = [
         ":explicit_euler_integrator",
+        "//common/test_utilities:expect_no_throw",
+        "//systems/analysis/test_utilities",
+    ],
+)
+
+drake_cc_googletest(
+    name = "delm_integrator_test",
+    timeout = "moderate",
+    deps = [
+        ":delm_integrator",
         "//common/test_utilities:expect_no_throw",
         "//systems/analysis/test_utilities",
     ],
